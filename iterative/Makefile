@@ -1,8 +1,9 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=gnu11 -g
-LDFLAGS =
+# Se añade -ldaemon para que el linker encuentre la librería
+LDFLAGS = -ldaemon
 
-SRCS = main.c arguments.c server.c utils.c pi.c dtp.c handlers.c signals.c session.c
+SRCS = main.c arguments.c server.c utils.c pi.c dtp.c handlers.c signals.c session.c log.c
 OBJS = $(SRCS:.c=.o)
 TARGET = miniftp
 
@@ -11,11 +12,10 @@ TARGET = miniftp
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS) $(TARGET)
-
